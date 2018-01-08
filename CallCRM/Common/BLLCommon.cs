@@ -101,6 +101,24 @@ namespace CallCRM.Common
             }
         }
 
+        public static string GetDirPath(string path)
+        {
+            string Dirpath = string.Empty;
+            using (StreamReader sr = new StreamReader(path, Encoding.Default))
+            {
+                String line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (line.Contains("DirPath"))
+                    {
+                        Dirpath = line.Substring(line.IndexOf("=") + 1) + "\\";
+                        break;
+                    }
+                }
+            }
+            return Dirpath;
+        }
+
         private static Uri _baseUri = new Uri("pack://application:,,,");
         public static BitmapImage GetImage(string path)
         {
@@ -113,10 +131,14 @@ namespace CallCRM.Common
 
         public static string GetWavPath()
         {
-            string fullPath = Path.GetDirectoryName(Properties.Settings.Default.AccessPath);
-            Directory.SetCurrentDirectory(Directory.GetParent(fullPath).FullName);
-            fullPath = Directory.GetCurrentDirectory() + "\\Data\\";
-            return fullPath;
+            string accessPath = Path.GetDirectoryName(Properties.Settings.Default.AccessPath);
+            string dirPath = GetDirPath(accessPath + "\\system.ini");
+            if (dirPath == string.Empty)
+            {
+                Directory.SetCurrentDirectory(Directory.GetParent(accessPath).FullName);
+                dirPath = Directory.GetCurrentDirectory() + "\\Data\\";
+            }
+            return dirPath;
         }
 
     }

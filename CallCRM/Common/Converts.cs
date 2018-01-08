@@ -54,33 +54,37 @@ namespace CallCRM.Common
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (parameter.ToString() == "CreateEnable")
+            //如果在有控件collpase时，并且gridcontrol设为滚轮动态效果的时候可能出现value为null的情况
+            if (value != null)
             {
-                if ((int)value == 0)
+                if (parameter.ToString() == "CreateEnable")
                 {
-                    return true;
+                    if ((int)value == 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if (parameter.ToString() == "Call")
+                {
+                    return BLLCommon.GetImage("Assets/assignto_32x32.png");
                 }
                 else
                 {
-                    return false;
+                    if ((int)value == 0)
+                    {
+                        return "建单";
+                    }
+                    else
+                    {
+                        return "已建单";
+                    }
                 }
             }
-            else if (parameter.ToString() == "Call")
-            {
-                return BLLCommon.GetImage("Assets/assignto_32x32.png");
-            }
-            else
-            {
-                if ((int)value == 0)
-                {
-                    return "建单";
-                }
-                else
-                {
-                    return "已建单";
-                }
-            }
-
+            return null;
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
