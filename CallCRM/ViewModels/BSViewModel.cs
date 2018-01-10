@@ -70,6 +70,10 @@ namespace CallCRM.ViewModels
         /// 故障类型
         /// </summary>
         public List<SelfKeyValue> FaultDict = new List<SelfKeyValue> { };
+        /// <summary>
+        /// 工单类型
+        /// </summary>
+        public List<SelfKeyValue> OrderDict = new List<SelfKeyValue> { };
 
         /// <summary>
         /// 用来存放手动创单传过来的数据
@@ -226,6 +230,16 @@ namespace CallCRM.ViewModels
             }
         }
 
+        private SelfKeyValue orderType;
+        public SelfKeyValue OrderType
+        {
+            get { return orderType; }
+            set
+            {
+                SetProperty<SelfKeyValue>(ref orderType, value, "OrderType");
+            }
+        }
+
         private SelfKeyValue company;
         public SelfKeyValue Company
         {
@@ -331,9 +345,13 @@ namespace CallCRM.ViewModels
                 CompanyDict.Add(new SelfKeyValue(Convert.ToInt32(item["id"]), item["name"].ToString()));
             }
 
+            //插入故障类型
             FaultDict.Add(new SelfKeyValue("hardware", "硬件故障"));
             FaultDict.Add(new SelfKeyValue("soft", "软件故障"));
             FaultDict.Add(new SelfKeyValue("other", "其他"));
+
+            OrderDict.Add(new SelfKeyValue("A", "故障申告"));
+            OrderDict.Add(new SelfKeyValue("B", "耗材配送"));
 
             GetAccessAction = () =>
             {
@@ -395,6 +413,15 @@ namespace CallCRM.ViewModels
             }
             else
                 fdm.company_id = Company.Key;
+
+            if (OrderType == null)
+            {
+                //不能创建
+                Prompt = "请选择工单类型！";
+                return false;
+            }
+            else
+                fdm.work_property = OrderType.Text;
 
             if (BreakDownCate == null)
             {

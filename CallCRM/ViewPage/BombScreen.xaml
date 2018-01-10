@@ -99,10 +99,17 @@
                             </dxe:ComboBoxEdit.StyleSettings>
                         </dxe:ComboBoxEdit>
                     </dxdo:LayoutControlItem>
-                    <dxdo:LayoutControlItem Caption="上门地址">
-                        <dxe:TextEdit Text="{Binding Address}" NullText="请输入" />
+                    <dxdo:LayoutControlItem Caption="工单类型">
+                        <dxe:ComboBoxEdit x:Name="OrderTypeComo" SelectedItem="{Binding OrderType}" NullText="请选择（必填）" IsTextEditable="False" ShowSizeGrip="False">
+                            <dxe:ComboBoxEdit.StyleSettings>
+                                <dxe:RadioComboBoxStyleSettings />
+                            </dxe:ComboBoxEdit.StyleSettings>
+                        </dxe:ComboBoxEdit>
                     </dxdo:LayoutControlItem>
                 </dxdo:LayoutGroup>
+                <dxdo:LayoutControlItem Caption="上门地址">
+                    <dxe:TextEdit Text="{Binding Address}" NullText="请输入" />
+                </dxdo:LayoutControlItem>
             </dxdo:LayoutGroup>
             <dxdo:LayoutGroup Caption="故障描述" Grid.Row="1" Grid.Column="0" GroupBorderStyle="GroupBox"  Orientation="Vertical" ShowCaption="True" ItemHeight="Auto">
                 <dxdo:LayoutControlItem Caption="Notes" ShowCaption="False">

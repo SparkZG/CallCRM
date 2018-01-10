@@ -59,8 +59,8 @@ namespace CallCRM.Common
         /// <returns></returns>
         public static bool CreateOrder(FaultDataModel fdm)
         {
-            string sql = "insert into call_log(date,start_time,during_time,phone,note,file_path,line_no,chan_id,user_id,asset_type_id,breakdown_categ,company_id,address,state)" +
-                " values(@date,@start_time,@during_time,@phone,@note,@file_path,@line_no,@chan_id,@user_id,@asset_type_id,@breakdown_categ,@company_id,@address,@state)";
+            string sql = "insert into call_log(date,start_time,during_time,phone,note,file_path,line_no,chan_id,user_id,asset_type_id,breakdown_categ,company_id,address,state,work_property)" +
+                " values(@date,@start_time,@during_time,@phone,@note,@file_path,@line_no,@chan_id,@user_id,@asset_type_id,@breakdown_categ,@company_id,@address,@state,@work_property)";
             NpgsqlParameter[] para = { 
                                          new NpgsqlParameter("@date",  NpgsqlDbType.Date),
                                          new NpgsqlParameter("@start_time",NpgsqlDbType.Varchar),
@@ -76,6 +76,7 @@ namespace CallCRM.Common
                                          new NpgsqlParameter("@company_id",NpgsqlDbType.Integer),
                                          new NpgsqlParameter("@address",NpgsqlDbType.Varchar),
                                          new NpgsqlParameter("@state",NpgsqlDbType.Varchar),
+                                         new NpgsqlParameter("@work_property",NpgsqlDbType.Varchar),
                                     };
             para[0].Value = fdm.StartDate;
             para[1].Value = fdm.StartTime;
@@ -91,6 +92,7 @@ namespace CallCRM.Common
             para[11].Value = fdm.company_id;
             para[12].Value = fdm.address;
             para[13].Value = "0";
+            para[14].Value = fdm.work_property;
 
             int rows = PostgresqlHelper.ExecuteNonQuery(sql, para);
 

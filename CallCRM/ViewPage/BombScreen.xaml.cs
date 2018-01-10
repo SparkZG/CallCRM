@@ -65,6 +65,10 @@ namespace CallCRM.ViewPage
             FaultTypeComo.ValueMember = "Text";
             FaultTypeComo.DisplayMember = "Value";
             FaultTypeComo.SelectedIndex = 2;
+
+            OrderTypeComo.ItemsSource = vm.OrderDict;
+            OrderTypeComo.ValueMember = "Text";
+            OrderTypeComo.DisplayMember = "Value";
         }
 
         private void ButtonCreate_Click(object sender, RoutedEventArgs e)

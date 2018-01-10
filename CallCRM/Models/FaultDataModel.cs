@@ -28,6 +28,10 @@ namespace CallCRM.Models
         /// </summary>
         public string breakdown_categ { get; set; }
         /// <summary>
+        /// 工单类型
+        /// </summary>
+        public string work_property { get; set; }
+        /// <summary>
         /// 上门地址
         /// </summary>
         public string address { get; set; }
