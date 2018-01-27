@@ -7,14 +7,75 @@
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
     xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
     x:Class="CallCRM.ViewPage.BombScreen"
-    Title="创建故障单" SizeToContent="WidthAndHeight" Loaded="DXWindow_Loaded" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Topmost="True" Closed="DXWindow_Closed"
+    Title="创建故障单" Loaded="DXWindow_Loaded" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Topmost="True" Closed="DXWindow_Closed"
     >
     <Window.Resources>
         <ControlTemplate x:Key="popupContentTemplate">
             <dxg:GridControl x:Name="PART_GridControl">
                 <dxg:GridControl.Columns>
                     <dxg:GridColumn FieldName="Text" Header="Login"/>
+                    <dxg:GridColumn FieldName="Value" Header="名称"/>
+                    <dxg:GridColumn FieldName="Value1" Header="部门"/>
+                </dxg:GridControl.Columns>
+                <dxg:GridControl.View>
+                    <dxg:TableView
+                        AutoWidth="True"
+                        UseEvenRowBackground="True"
+                        AllowColumnFiltering="False"
+                        ShowGroupedColumns="False"
+                        ShowIndicator="False"
+                        AllowPerPixelScrolling="True"
+                        ScrollAnimationDuration="0"
+                        ShowAutoFilterRow="False"
+                        ShowTotalSummary="False"    
+                        NewItemRowPosition="None"
+                        NavigationStyle="Row"
+                        AllowScrollAnimation="True"
+                        AllowSorting="False"
+                        AllowFilterEditor="False"
+                        AllowEditing="False"
+                        IsColumnMenuEnabled="False"
+                        AllowMoveColumnToDropArea="False"                        
+                        IsSynchronizedWithCurrentItem="False">
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </ControlTemplate>
+        <ControlTemplate x:Key="popupContentTemplate1">
+            <dxg:GridControl x:Name="PART_GridControl">
+                <dxg:GridControl.Columns>
+                    <dxg:GridColumn FieldName="Value" Header="主题"/>
+                </dxg:GridControl.Columns>
+                <dxg:GridControl.View>
+                    <dxg:TableView
+                        AutoWidth="True"
+                        UseEvenRowBackground="True"
+                        AllowColumnFiltering="False"
+                        ShowGroupedColumns="False"
+                        ShowIndicator="False"
+                        AllowPerPixelScrolling="True"
+                        ScrollAnimationDuration="0"
+                        ShowAutoFilterRow="False"
+                        ShowTotalSummary="False"    
+                        NewItemRowPosition="None"
+                        NavigationStyle="Row"
+                        AllowScrollAnimation="True"
+                        AllowSorting="False"
+                        AllowFilterEditor="False"
+                        AllowEditing="False"
+                        IsColumnMenuEnabled="False"
+                        AllowMoveColumnToDropArea="False"                        
+                        IsSynchronizedWithCurrentItem="False">
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+        </ControlTemplate>
+        <ControlTemplate x:Key="popupContentTemplate2">
+            <dxg:GridControl x:Name="PART_GridControl">
+                <dxg:GridControl.Columns>
+                    <dxg:GridColumn FieldName="Text" Header="code"/>
                     <dxg:GridColumn FieldName="Value" Header="名称"/>
                 </dxg:GridControl.Columns>
                 <dxg:GridControl.View>
@@ -54,7 +115,7 @@
                            Name="UserLookUpEdit"
                            HorizontalAlignment="Stretch"
                            PopupHeight="500"
-                           PopupWidth="200"
+                           PopupWidth="400"
                            PopupMinHeight="100"
                            PopupMinWidth="100"
                            IsPopupAutoWidth="False"
@@ -73,7 +134,7 @@
                                 <dxg:SearchLookUpEditStyleSettings />
                             </dxg:LookUpEdit.StyleSettings>
                         </dxg:LookUpEdit>
-                    </dxdo:LayoutControlItem>
+                    </dxdo:LayoutControlItem>                    
                 </dxdo:LayoutGroup>
                 <dxdo:LayoutGroup ItemHeight="Auto">
                     <dxdo:LayoutControlItem Caption="资产类型">
@@ -83,13 +144,31 @@
                             </dxe:ComboBoxEdit.StyleSettings>
                         </dxe:ComboBoxEdit>
                     </dxdo:LayoutControlItem>
-                    <dxdo:LayoutControlItem Caption="故障类型">
-                        <dxe:ComboBoxEdit x:Name="FaultTypeComo" SelectedItem="{Binding BreakDownCate}" NullText="请选择" IsTextEditable="False" ShowSizeGrip="False">
-                            <dxe:ComboBoxEdit.StyleSettings>
-                                <dxe:RadioComboBoxStyleSettings />
-                            </dxe:ComboBoxEdit.StyleSettings>
-                        </dxe:ComboBoxEdit>
-                    </dxdo:LayoutControlItem>
+                    <dxdo:LayoutControlItem Caption="部门">
+                        <dxg:LookUpEdit
+                           Name="DepartLookUpEdit"
+                           HorizontalAlignment="Stretch"
+                           PopupHeight="500"
+                           PopupWidth="400"
+                           PopupMinHeight="100"
+                           PopupMinWidth="100"
+                           IsPopupAutoWidth="False"
+                           FilterCondition = "Contains"
+                           FindButtonPlacement = "Popup"
+                           NullValueButtonPlacement = "Popup"
+                           AddNewButtonPlacement = "None"
+                           FindMode = "Always"
+                           NullText="请选择"
+                           ShowSizeGrip = "True"
+                           PopupContentTemplate="{StaticResource popupContentTemplate2}"
+                           AutoPopulateColumns="False"
+                           SelectedItem="{Binding Department}"
+                           >
+                            <dxg:LookUpEdit.StyleSettings>
+                                <dxg:SearchLookUpEditStyleSettings />
+                            </dxg:LookUpEdit.StyleSettings>
+                        </dxg:LookUpEdit>
+                    </dxdo:LayoutControlItem>                    
                 </dxdo:LayoutGroup>
                 <dxdo:LayoutGroup ItemHeight="Auto">
                     <dxdo:LayoutControlItem Caption="区域">
@@ -107,16 +186,56 @@
                         </dxe:ComboBoxEdit>
                     </dxdo:LayoutControlItem>
                 </dxdo:LayoutGroup>
+                <dxdo:LayoutGroup ItemHeight="Auto">
+                    <dxdo:LayoutControlItem Caption="故障类型">
+                        <dxe:ComboBoxEdit x:Name="FaultTypeComo" SelectedItem="{Binding BreakDownCate}" NullText="请选择" IsTextEditable="False" ShowSizeGrip="False">
+                            <dxe:ComboBoxEdit.StyleSettings>
+                                <dxe:RadioComboBoxStyleSettings />
+                            </dxe:ComboBoxEdit.StyleSettings>
+                        </dxe:ComboBoxEdit>
+                    </dxdo:LayoutControlItem>
+                    <dxdo:LayoutControlItem Caption="故障主题">
+                        <dxg:LookUpEdit
+                           Name="FalutLookUpEdit"
+                           HorizontalAlignment="Stretch"
+                           PopupHeight="500"
+                           PopupWidth="500"
+                           PopupMinHeight="100"
+                           PopupMinWidth="100"
+                           IsPopupAutoWidth="False"
+                           FilterCondition = "Contains"
+                           FindButtonPlacement = "Popup"
+                           NullValueButtonPlacement = "Popup"
+                           AddNewButtonPlacement = "None"
+                           FindMode = "Always"
+                           NullText="请选择"
+                           ShowSizeGrip = "True"
+                           PopupContentTemplate="{StaticResource popupContentTemplate1}"
+                           AutoPopulateColumns="False"
+                           SelectedItem="{Binding KnowLedge}"
+                        SelectedIndexChanged="FalutLookUpEdit_SelectedIndexChanged"
+                           >
+                            <dxg:LookUpEdit.StyleSettings>
+                                <dxg:SearchLookUpEditStyleSettings />
+                            </dxg:LookUpEdit.StyleSettings>
+                        </dxg:LookUpEdit>
+                    </dxdo:LayoutControlItem>                                   
+                </dxdo:LayoutGroup>
                 <dxdo:LayoutControlItem Caption="上门地址">
-                    <dxe:TextEdit Text="{Binding Address}" NullText="请输入" />
+                    <dxe:TextEdit Text="{Binding Address}" NullText="请输入"  TextWrapping="Wrap" AcceptsReturn="True" />
                 </dxdo:LayoutControlItem>
             </dxdo:LayoutGroup>
-            <dxdo:LayoutGroup Caption="故障描述" Grid.Row="1" Grid.Column="0" GroupBorderStyle="GroupBox"  Orientation="Vertical" ShowCaption="True" ItemHeight="Auto">
+            <dxdo:LayoutGroup Caption="故障描述" GroupBorderStyle="GroupBox"  Orientation="Vertical" ShowCaption="True" ItemHeight="Auto">
                 <dxdo:LayoutControlItem Caption="Notes" ShowCaption="False">
-                    <dxe:TextEdit Text="{Binding Note}" NullText="请输入具体的故障状况" MinWidth="500" MinHeight="150" TextWrapping="Wrap" VerticalContentAlignment="Top" />
+                    <dxe:TextEdit Text="{Binding Note}" NullText="请输入具体的故障状况" MinWidth="500" Margin="-12" MinHeight="65" TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top" />
                 </dxdo:LayoutControlItem>
             </dxdo:LayoutGroup>
-            <dxdo:LayoutGroup Caption="其他信息" Grid.Row="2" Grid.Column="0" Orientation="Vertical" GroupBorderStyle="GroupBox" ShowCaption="True" ItemHeight="Auto">
+            <dxdo:LayoutGroup Caption="解决方法" GroupBorderStyle="GroupBox"  Orientation="Vertical" ShowCaption="True" ItemHeight="Auto">
+                <dxdo:LayoutControlItem Caption="Note_Result" ShowCaption="False">
+                    <dxe:TextEdit Text="{Binding Note_Result}" NullText="选择故障主题或者手动输入" Margin="-12" MinWidth="500" MinHeight="65" TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top" />
+                </dxdo:LayoutControlItem>
+            </dxdo:LayoutGroup>
+            <dxdo:LayoutGroup Caption="其他信息" Orientation="Vertical" GroupBorderStyle="GroupBox" ShowCaption="True" ItemHeight="Auto" Expanded="False">
                 <dxdo:LayoutGroup ItemHeight="Auto">
                     <dxdo:LayoutControlItem Caption="通道">
                         <dxe:TextEdit IsReadOnly="True" Text="{Binding Chan}" NullText="挂机会自动填充"/>
@@ -143,15 +262,27 @@
                 </dxdo:LayoutGroup>
             </dxdo:LayoutGroup>
             <dxdo:LayoutGroup ItemHeight="Auto">
-                <dxdo:LayoutControlItem  ControlHorizontalAlignment="Left" ShowCaption="False">
-                    <Button x:Name="ButtonCanle" Click="ButtonCanle_Click" Content="取消创建"/>
-                </dxdo:LayoutControlItem>
-                <dxdo:LayoutControlItem  ControlHorizontalAlignment="Center" Foreground="Red">
-                    <TextBlock Text="{Binding Prompt}" />
-                </dxdo:LayoutControlItem>
-                <dxdo:LayoutControlItem  ControlHorizontalAlignment="Right" ShowCaption="False">                    
-                    <Button x:Name="ButtonCreate" Click="ButtonCreate_Click" Content="创建工单"/>
-                </dxdo:LayoutControlItem>                
+                <dxdo:LayoutControlItem x:Name="OperateItem" ShowCaption="False">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <dx:SimpleButton x:Uid="2" Margin="2,0,2,0" Click="ButtonCreate_Click" Content="电话已解决" Glyph="/CallCRM;component/Assets/phone_16x16.png"/>
+                            <dx:SimpleButton x:Uid="3" Margin="2,0,2,0" Click="ButtonCreate_Click" Content="创建工单" Glyph="{dx:DXImage Image=BOReport_16x16.png}"/>
+                            <dx:SimpleButton x:Uid="1" Margin="2,0,2,0" Click="ButtonCreate_Click" Content="待处理" Glyph="{dx:DXImage Image=Tag_16x16.png}"/>
+                            <dx:SimpleButton x:Name="ButtonCanle" Margin="2,0,2,0" Click="ButtonCanle_Click" Content="取消创建" Glyph="{dx:DXImage Image=Cancel_16x16.png}"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Prompt}" Foreground="Red" HorizontalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Prompt}" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </dxdo:LayoutControlItem>               
             </dxdo:LayoutGroup>
         </dxdo:LayoutGroup>
     </dxdo:DockLayoutManager>

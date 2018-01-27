@@ -55,5 +55,10 @@ namespace CallCRM.ViewPage
         {
             dvm.GetAllCall();
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            GridView.BestFitColumns();
+        }
     }
 }

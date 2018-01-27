@@ -10,7 +10,7 @@
         xmlns:vm="clr-namespace:CallCRM.ViewModels"
         xmlns:local="clr-namespace:CallCRM"
         xmlns:view="clr-namespace:CallCRM.ViewPage"
-        Title="CallCRM" Closing="DXWindow_Closing" Closed="DXWindow_Closed" WindowStartupLocation="CenterScreen">
+        Title="CallCRM" Closing="DXWindow_Closing" Closed="DXWindow_Closed" Loaded="DXWindow_Loaded" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <dx:DXWindow.CommandBindings>
         <CommandBinding Command="local:MainWindow.SelectCommand" CanExecute="SelectCommand_CanExecute" Executed="SelectCommand_Executed"/>
         <CommandBinding Command="local:MainWindow.ExitApp" CanExecute="ExitApp_CanExecute" Executed="ExitApp_Executed"/>

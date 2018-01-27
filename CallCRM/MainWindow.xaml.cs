@@ -112,5 +112,10 @@ namespace CallCRM
             vm.StopConnent();
         }
 
+        private void DXWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            OpenPort.IsChecked = true;
+        }
+
     }
 }

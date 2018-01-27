@@ -6,6 +6,7 @@ using System.Windows;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Globalization;
+using System.Drawing;
 
 namespace CallCRM.Common
 {
@@ -33,7 +34,7 @@ namespace CallCRM.Common
                 }
                 else
                 {
-                    return Visibility.Hidden;
+                    return Visibility.Collapsed;
                 }
             }
             else
@@ -57,34 +58,84 @@ namespace CallCRM.Common
             //如果在有控件collpase时，并且gridcontrol设为滚轮动态效果的时候可能出现value为null的情况
             if (value != null)
             {
-                if (parameter.ToString() == "CreateEnable")
+                switch (parameter.ToString())
                 {
-                    if ((int)value == 0)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    case "CreatePicture":
+                        switch ((string)value)
+                        {
+                            case "未接听":
+                                return BLLCommon.GetImage("Assets/design_16x16.png");
+                            case "待处理":
+                                return BLLCommon.GetImage("Assets/design_16x16.png");
+                            case "电话已解决":
+                                return BLLCommon.GetImage("Assets/show_16x16.png");
+                            case "已报修":
+                                return BLLCommon.GetImage("Assets/show_16x16.png");
+                            default:
+                                return BLLCommon.GetImage("Assets/design_16x16.png");
+                        }
+                    case "CreateText":
+                        switch ((string)value)
+                        {
+                            case "未接听":
+                                return "编辑创单";
+                            case "待处理":
+                                return "编辑创单";
+                            case "电话已解决":
+                                return "查看明细";
+                            case "已报修":
+                                return "查看明细";
+                            default:
+                                return "编辑创单";
+                        }
+                    case "StatusText":
+                        switch ((string)value)
+                        {
+                            case "未接听":
+                                return "未接听";
+                            case "待处理":
+                                return "待处理";
+                            case "电话已解决":
+                                return "电话已解决";
+                            case "已报修":
+                                return "已报修";
+                            default:
+                                return "未接听";
+                        }
+                    case "StatusPicture":
+                        switch ((string)value)
+                        {
+                            case "未接听":
+                                return BLLCommon.GetImage("Assets/delete_16x16.png");
+                            case "待处理":
+                                return BLLCommon.GetImage("Assets/tag_16x16.png");
+                            case "电话已解决":
+                                return BLLCommon.GetImage("Assets/phone_16x16.png");
+                            case "已报修":
+                                return BLLCommon.GetImage("Assets/botask_16x16.png");
+                            default:
+                                return BLLCommon.GetImage("Assets/delete_16x16.png");
+                        }
+                    default:
+                        break;
                 }
-                else if (parameter.ToString() == "Call")
-                {
-                    return BLLCommon.GetImage("Assets/assignto_32x32.png");
-                }
-                else
-                {
-                    if ((int)value == 0)
-                    {
-                        return "建单";
-                    }
-                    else
-                    {
-                        return "已建单";
-                    }
-                }
+
             }
             return null;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    #endregion
+
+    #region 行号+1
+    public class AddOneHandleConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (int)value + 1;
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

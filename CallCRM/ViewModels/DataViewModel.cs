@@ -24,6 +24,7 @@ namespace CallCRM.ViewModels
         public DataViewModel()
         {
             GetAllCall();
+            ViewModel.HangupAction += GetAllCall;
         }
 
         public void GetAllCall()
@@ -75,21 +76,22 @@ namespace CallCRM.ViewModels
 
         public void CreateSelectedRowData()
         {
-            var dm = new DataModel();
-            dm.SetData(SelectedRow);
-            var bs = new BombScreen(dm);
+            //var dm = new DataModel();
+            //dm.SetData(SelectedRow);
+            //直接将SelectedRow实例传过去，这样在另一处更改会关联此实例变化
+            var bs = new BombScreen(SelectedRow);
             bs.ShowDialog();
-            if (bs.IsCreateSuccess)
-            {
-                foreach (var item in CallList)
-                {
-                    if (item.ID == dm.ID)
-                    {
-                        item.IsDisposed = 1;
-                        return;
-                    }
-                }
-            }
+            //if (bs.IsCreateSuccess)
+            //{
+            //    foreach (var item in CallList)
+            //    {
+            //        if (item.ID == dm.ID)
+            //        {
+            //            item.IsDisposed = Convert.ToInt32(CreteFaultList.GetState(bs.type));
+            //            return;
+            //        }
+            //    }
+            //}
         }
     }
 }

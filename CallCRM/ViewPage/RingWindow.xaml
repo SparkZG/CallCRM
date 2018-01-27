@@ -49,6 +49,6 @@
                 </Grid>
             </dx:BackgroundPanel>
         </Border>
-            <dx:SimpleButton Grid.Row="1" Content="已接听" FontSize="16"  Click="SimpleButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" />          
+            <dx:SimpleButton Grid.Row="1" Content="已接听" FontSize="16" Glyph="{dx:DXImage Image=BOContact_16x16.png}"  Click="SimpleButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" />          
     </Grid>
 </Window>

@@ -11,7 +11,7 @@
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              x:Class="CallCRM.ViewPage.DataViewPage" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <UserControl.CommandBindings>
         <CommandBinding Command="view:DataViewPage.CreateCommand" CanExecute="CreateCommand_CanExecute" Executed="CreateCommand_Executed"/>
     </UserControl.CommandBindings>
@@ -26,7 +26,7 @@
                         </Grid.RowDefinitions>
                         <dx:SimpleButton Content="查询全部呼入电话" Grid.Row="0" Click="SimpleButton_Click"  Height="40"  Width=" 200" Glyph="{dx:DXImage Image=MarqueeZoom_32x32.png}"/>
                         <dx:SimpleButton Content="其他查询（待添加）" Grid.Row="1"  Height="40"  Width=" 200" />
-                    </Grid>                    
+                    </Grid>
                 </dxdo:LayoutPanel>
             </dxdo:AutoHideGroup>
         </dxdo:DockLayoutManager.AutoHideGroups>
@@ -34,36 +34,94 @@
             <dxdo:LayoutPanel ShowBorder="False"  ShowCaption="False" AllowClose="False" AllowHide="False">
                 <dxg:GridControl x:Name="TestGrid" SelectedItem="{Binding SelectedRow, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding CallList}" ShowBorder="True" Grid.Row="0" AutoGenerateColumns="None" SnapsToDevicePixels="True">
                     <dxg:GridControl.Columns>
-                        <dxg:GridColumn  FieldName="CallType" Header="方向" Width="15" >
+                        <dxg:GridColumn  FieldName="CallType" Header="方向" >
                             <dxg:GridColumn.CellTemplate>
                                 <DataTemplate>
-                                    <dxe:ImageEdit ShowMenu="False" Stretch="None" Height="40"  Source="{Binding Path=Value, Converter={StaticResource rac}, ConverterParameter=Call}"
+                                    <dxe:ImageEdit ShowMenu="False" Stretch="None" Height="40"  Source="{dx:DXImage Image=AssignTo_32x32.png}"
                                                        ShowBorder="False"/>
                                 </DataTemplate>
                             </dxg:GridColumn.CellTemplate>
                         </dxg:GridColumn>
-                        <dxg:GridColumn  FieldName="Chan" Header="通道" Width="20" />
-                        <dxg:GridColumn  FieldName="LineID" Header="线路名称" Width="20" />
-                        <dxg:GridColumn  FieldName="CallerID" Header="电话" Width="30"/>
-                        <dxg:GridColumn  FieldName="StartDate" Header="通话日期"  Width="45"/>
-                        <dxg:GridColumn  FieldName="StartTime" Header="开始时间" Width="25" />
-                        <dxg:GridColumn  FieldName="DuringTime" Header="通话时长" Width="25" />
+                        <dxg:GridColumn  FieldName="Chan" Header="通道" />
+                        <dxg:GridColumn  FieldName="LineID" Header="线路名称" />
+                        <dxg:GridColumn  FieldName="CallerID" Header="电话" />
+                        <dxg:GridColumn  FieldName="StartDate" Header="通话日期" >
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Path=Value, StringFormat={}{0:yyyy-MM-dd}}"/>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  FieldName="StartTime" Header="开始时间" />
+                        <dxg:GridColumn  FieldName="DuringTime" Header="通话时长" />
                         <dxg:GridColumn  FieldName="WaveFilePath" Header="录音文件地址" />
-                        <dxg:GridColumn  FieldName="IsDisposed" Header="状态" Width="30">
+                        <dxg:GridColumn  FieldName="StateStr" Header="状态" >
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border VerticalAlignment="Center"  HorizontalAlignment="Center" 
+                                SnapsToDevicePixels="true" CornerRadius="3,3,3,3">
+                                        <StackPanel Orientation="Horizontal" Width="80" >
+                                            <Image Source="{Binding Path=Value, Converter={StaticResource rac}, ConverterParameter=StatusPicture}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Path=Value, Converter={StaticResource rac}, ConverterParameter=StatusText}" Foreground="Black"/>
+                                        </StackPanel>                                        
+                                    </Border>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn  FieldName="StateStr" Header="操作" >
                             <dxg:GridColumn.CellTemplate>
                                 <DataTemplate>
                                     <dx:SimpleButton  Content="{Binding Path=Value, Converter={StaticResource rac}, ConverterParameter=CreateText}"  
-                                              IsEnabled="{Binding Path=Value, Converter={StaticResource rac}, ConverterParameter=CreateEnable}"
-                                              Command="view:DataViewPage.CreateCommand"
-                                                  Width="100"  Glyph="{dx:DXImage Image=IDE_32x32.png}" VerticalAlignment="Center"/>
+                                              Glyph="{Binding Path=Value, Converter={StaticResource rac}, ConverterParameter=CreatePicture}"
+                                              Command="view:DataViewPage.CreateCommand" GlyphToContentOffset="0"
+                                                  Width="90" Height="25" VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </dxg:GridColumn.CellTemplate>
                         </dxg:GridColumn>
 
                     </dxg:GridControl.Columns>
+
                     <dxg:GridControl.View>
-                        <dxg:TableView 
-                        Style="{StaticResource TableViewStyle}"/>
+                        <dxg:TableView  x:Name="GridView" Style="{StaticResource TableViewStyle}">
+                            <dxg:TableView.RuntimeLocalizationStrings>
+                                <dxg:GridRuntimeStringCollection>
+                                    <dxg:RuntimeStringIdInfo Id="GridGroupPanelText" Value="将 列 拖 拽 到 此 分 组 查 看 "/>
+
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnBestFit" Value="最佳宽度"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnBestFitColumns" Value="最佳宽度（每一列）"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnClearFilter" Value="清除过滤"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnClearSorting" Value="清除排序设置"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnFilterEditor" Value="编辑过滤器"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnHideGroupPanel" Value="隐藏分组依赖框"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnShowSearchPanel" Value="显示查找框（ctrl+F）"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnHideColumnChooser" Value="关闭列选择器"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnShowColumnChooser" Value="隐藏列选择器"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnHideSearchPanel" Value="隐藏查找框"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnShowGroupPanel" Value="显示分组依赖框"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnSortAscending" Value="升序排列"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnSortDescending" Value="降序排列"/>
+                                    <dxg:RuntimeStringIdInfo Id="MenuColumnGroup" Value="按此列分组"/>
+
+                                    <dxg:RuntimeStringIdInfo Id="ColumnChooserCaption" Value="隐藏列选择器"/>
+                                    <dxg:RuntimeStringIdInfo Id="ColumnChooserDragText" Value="将要隐藏的列拖拽至此"/>
+                                    <dxg:RuntimeStringIdInfo Id="FilterEditorTitle" Value="过滤编辑器"/>
+
+
+
+                                    <dxg:RuntimeStringIdInfo Id="NavigationMoveNextPage" Value="下一页"/>
+                                    <dxg:RuntimeStringIdInfo Id="NavigationAddNewRow" Value="新增一行"/>
+                                    <dxg:RuntimeStringIdInfo Id="NavigationDeleteFocusedRow" Value="删除选中行"/>
+                                    <dxg:RuntimeStringIdInfo Id="NavigationMoveFirstRow" Value="第一行"/>
+                                    <dxg:RuntimeStringIdInfo Id="NavigationMoveLastRow" Value="最后一行"/>
+                                    <dxg:RuntimeStringIdInfo Id="NavigationMoveNextRow" Value="下一行"/>
+                                    <dxg:RuntimeStringIdInfo Id="NavigationMovePrevPage" Value="上一页"/>
+                                    <dxg:RuntimeStringIdInfo Id="NavigationMovePrevRow" Value="上一行"/>
+
+                                </dxg:GridRuntimeStringCollection>
+                            </dxg:TableView.RuntimeLocalizationStrings>
+
+                        </dxg:TableView>
+
                     </dxg:GridControl.View>
 
                 </dxg:GridControl>
@@ -71,6 +129,6 @@
         </dxdo:LayoutGroup>
     </dxdo:DockLayoutManager>
 
-    
+
 
 </UserControl>

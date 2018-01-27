@@ -192,7 +192,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -207,6 +209,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="call.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\phone_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\botask_16x16.png" />
+    <Resource Include="Assets\delete_16x16.png" />
+    <Resource Include="Assets\tag_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\design_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\show_16x16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

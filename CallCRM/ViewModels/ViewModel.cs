@@ -15,7 +15,7 @@ using CallCRM.DataFactory;
 using System.Collections.Concurrent;
 
 namespace CallCRM.ViewModels
-{
+{    
     public class ViewModel : ViewModelBase
     {
         public MySocket _UDPServer = null;

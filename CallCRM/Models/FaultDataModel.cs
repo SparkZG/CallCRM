@@ -20,6 +20,14 @@ namespace CallCRM.Models
         /// </summary>
         public int company_id { get; set; }
         /// <summary>
+        /// 部门
+        /// </summary>
+        public int department_id { get; set; }        
+        /// <summary>
+        /// 故障主题
+        /// </summary>
+        public int knowledge_id { get; set; }
+        /// <summary>
         /// 故障描述
         /// </summary>
         public string note { get; set; }
@@ -27,6 +35,10 @@ namespace CallCRM.Models
         /// 故障类型
         /// </summary>
         public string breakdown_categ { get; set; }
+        /// <summary>
+        /// 解决方法
+        /// </summary>
+        public string note_result { get; set; }
         /// <summary>
         /// 工单类型
         /// </summary>

@@ -10,7 +10,17 @@
               
         <common:ReverseConverter x:Key="rc"/>
         <common:ReverseAlarmRankConverter x:Key="rac"></common:ReverseAlarmRankConverter>
-        
+        <common:AddOneHandleConverter x:Key="aohc"/>
+
+        <DataTemplate x:Key="rowIndicatorContentTemplate">
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+                <TextBlock Text="{Binding Path=RowHandle.Value, Converter={StaticResource aohc}}"
+                           TextAlignment="Center"
+                           Foreground="LightGray"/>
+            </StackPanel>
+        </DataTemplate>
+
         <Style x:Key="TableViewStyle" TargetType="dxg:TableView">
             <Setter Property="AllowPerPixelScrolling" Value="True"/>
             <Setter Property="AllowCascadeUpdate" Value="True"/>
@@ -19,8 +29,8 @@
             <Setter Property="ShowFocusedRectangle" Value="False"/>          
             <Setter Property="UseEvenRowBackground" Value="True"/>
             <Setter Property="AllowEditing" Value="False"/>
-            <Setter Property="ShowGroupPanel" Value="False"/>
-            <Setter Property="ShowIndicator" Value="False"/>
+            <Setter Property="ShowGroupPanel" Value="True"/>
+            <Setter Property="ShowIndicator" Value="True"/>
             <Setter Property="AllowBestFit" Value="True"/>
             <Setter Property="ShowVerticalLines" Value="False"/>
             <Setter Property="ShowHorizontalLines" Value="False"/>
@@ -31,9 +41,11 @@
             <Setter Property="AllowScrollToFocusedRow" Value="True"/>
             <Setter Property="AutoWidth" Value="True"/>
             <Setter Property="NewItemRowPosition" Value="None"/>
-            <Setter Property="IsColumnMenuEnabled" Value="False"/>
-            <Setter Property="ShowDataNavigator" Value="False"/>
-        </Style>
+            <Setter Property="IsColumnMenuEnabled" Value="True"/>
+            <Setter Property="ShowDataNavigator" Value="True"/>
+            <Setter Property="IsGroupPanelMenuEnabled" Value="False"/>
+            <Setter Property="RowIndicatorContentTemplate" Value="{StaticResource rowIndicatorContentTemplate}"/>
+        </Style>        
         
         <Style TargetType="{x:Type dxg:GridColumn}">
             <!--列头居中-->
@@ -45,7 +57,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
+
         <Style x:Key="VerGridSplitterStyle" TargetType="GridSplitter">
             <Setter Property="Width" Value="2"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>

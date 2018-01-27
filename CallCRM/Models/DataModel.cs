@@ -96,7 +96,7 @@ namespace CallCRM.Models
         /// </summary>
         public string WaveFilePath { get; set; }
         /// <summary>
-        /// 状态
+        /// 状态int值
         /// </summary>
         private int isDisposed;
         public int IsDisposed
@@ -105,6 +105,19 @@ namespace CallCRM.Models
             set
             {
                 SetProperty<int>(ref isDisposed, value, "IsDisposed");
+                StateStr = CreteFaultList.GeStateStr(value);
+            }
+        }
+        /// <summary>
+        /// 状态string
+        /// </summary>
+        private string stateStr;
+        public string StateStr
+        {
+            get { return stateStr; }
+            set
+            {
+                SetProperty<string>(ref stateStr, value, "StateStr");
             }
         }
     }
