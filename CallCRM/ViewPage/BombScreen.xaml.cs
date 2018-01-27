@@ -46,10 +46,10 @@ namespace CallCRM.ViewPage
             try
             {
                 vm.RemoveCallID();
-                vm = null;
-                GC.Collect();
+                //vm = null;
+                //GC.Collect();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }

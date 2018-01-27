@@ -31,14 +31,14 @@ namespace CallCRM.ViewModels
         {
             callTable.Clear();
             CallList.Clear();
-            string sql = "select * from CallLogTable where CallType=0";
+            string sql = "select * from CallLogTable where CallType=0 or CallType=2";
             callTable = AccessHelper.Adapter(sql, null);
-            foreach (DataRow item in callTable.Rows)
+            for (int i = callTable.Rows.Count - 1; i >= 0; i--)
             {
                 try
                 {
                     var dm = new DataModel();
-                    dm.SetData(item);
+                    dm.SetData(callTable.Rows[i]);
                     if (dm.CallerID == "")
                     {
                         continue;

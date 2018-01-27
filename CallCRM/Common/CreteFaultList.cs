@@ -64,12 +64,12 @@ namespace CallCRM.Common
         /// </summary>
         /// <param name="fdm"></param>
         /// <returns></returns>
-        public static bool CreateOrder(FaultDataModel fdm, FaultType _type)
+        public static bool CreateOrder(FaultDataModel fdm, FaultType _type, bool _IsInsert)
         {
             string sql = string.Empty;
             int rows = 0;
             //只有当未接听的时候才插入，否则都是更新
-            if (fdm.IsDisposed == 0)
+            if (_IsInsert)
             {
                 sql = "insert into call_log(date,start_time,during_time,phone,note,file_path,line_no,chan_id,user_id,asset_type_id,breakdown_categ,company_id,address,state,work_property,department_id,knowledge_id,note_result,source_id)" +
                 " values(@date,@start_time,@during_time,@phone,@note,@file_path,@line_no,@chan_id,@user_id,@asset_type_id,@breakdown_categ,@company_id,@address,@state,@work_property,@department_id,@knowledge_id,@note_result,@source_id)";

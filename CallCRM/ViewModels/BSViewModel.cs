@@ -104,6 +104,10 @@ namespace CallCRM.ViewModels
         /// 来电时间
         /// </summary>
         public CallTime _callTime;
+        /// <summary>
+        /// web数据库中是否存在此记录来判断是insert还是update
+        /// </summary>
+        public bool IsInsert = true;
 
         public Action GetAccessAction = null;
 
@@ -235,10 +239,13 @@ namespace CallCRM.ViewModels
             set
             {
                 SetProperty<SelfKeyValue>(ref user, value, "User");
-                var skvDepartment = DepartmentDict.Find(skv => skv.Key == value.Key1);
-                if (skvDepartment != null)
+                if (value != null)
                 {
-                    Department = skvDepartment;
+                    var skvDepartment = DepartmentDict.Find(skv => skv.Key == value.Key1);
+                    if (skvDepartment != null)
+                    {
+                        Department = skvDepartment;
+                    }
                 }
                 CheckNull();
             }
@@ -381,6 +388,8 @@ namespace CallCRM.ViewModels
             DataTable callData = PostgresqlHelper.ExecuteQuery(strsql).Tables[0];
             if (callData.Rows.Count > 0)
             {
+                //update
+                IsInsert = false;
                 DataRow dr = callData.Rows[0];
 
                 if (dr["user_id"] != null)
@@ -649,7 +658,7 @@ namespace CallCRM.ViewModels
 
             //插入服务器
 
-            if (CreteFaultList.CreateOrder(fdm, _type))
+            if (CreteFaultList.CreateOrder(fdm, _type, IsInsert))
             {
                 CreteFaultList.UpdateIsCreate(AccessID, _type);
                 return true;
