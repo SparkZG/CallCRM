@@ -57,6 +57,17 @@ namespace CallCRM.Models
                 IsDisposed = 0;
             else
                 IsDisposed = Convert.ToInt32(dr["IsDisposed"]);
+
+            //如果access里面数据是未接听
+            if (CallType == 0 && IsDisposed == 0)
+            {
+                IsDisposed = 1;
+                CreteFaultList.UpdateIsCreate(ID, FaultType.Pending);
+            }
+            if (CallType == 2)
+            {
+                WaveFilePath = "";
+            }
         }
         /// <summary>
         /// 序号
