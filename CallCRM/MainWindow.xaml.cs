@@ -16,6 +16,7 @@ using DevExpress.Xpf.Core;
 using CallCRM.DataFactory;
 using System.Data;
 using CallCRM.Common;
+using CallCRM.ViewPage;
 
 namespace CallCRM
 {
@@ -103,6 +104,29 @@ namespace CallCRM
         private void ExitApp_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             this.Close();
+        }
+
+        #endregion
+
+        #region Command-关机指令
+        /// <summary>
+        /// 测试
+        /// </summary>
+        private static RoutedUICommand serverConfigCommand = new RoutedUICommand("ServerConfigCommand", "ServerConfigCommand", typeof(MainWindow));
+        public static RoutedUICommand ServerConfigCommand
+        {
+            get { return serverConfigCommand; }
+        }
+        private void ServerConfigCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+            e.Handled = true;
+        }
+
+        private void ServerConfigCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ConfigDialog cd = new ConfigDialog();
+            cd.ShowDialog();
         }
 
         #endregion

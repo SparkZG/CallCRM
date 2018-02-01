@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using DevExpress.Xpf.Core;
 using CallCRM.Log;
+using CallCRM.DataFactory;
 
 
 namespace CallCRM.ViewPage
@@ -43,7 +44,12 @@ namespace CallCRM.ViewPage
         }
         public void SetDefaultData()
         {
-
+            Properties.Settings.Default.ServerIP = ServerIP.Text;
+            Properties.Settings.Default.ServerPort = ServerPort.Text;
+            Properties.Settings.Default.Database = Database.Text;
+            Properties.Settings.Default.UserID = User.Text;
+            Properties.Settings.Default.Password = Password.Text;
+            this.Close();
         }
 
         private void SimpleButton_Click(object sender, RoutedEventArgs e)
@@ -66,7 +72,8 @@ namespace CallCRM.ViewPage
                     }
                     break;
                 case "2":
-                    this.Close();
+                    string log = PostgresqlHelper.ConnectTest();
+                    DXMessageBox.Show(log == null ? "连接成功！" : log, "提示", MessageBoxButton.OK, MessageBoxImage.Information);
                     break;
                 default:
                     break;

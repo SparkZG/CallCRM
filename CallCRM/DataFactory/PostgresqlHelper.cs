@@ -21,6 +21,23 @@ namespace CallCRM.DataFactory
                 Properties.Settings.Default.UserID,
                 Properties.Settings.Default.Password);
         }
+
+        public static string ConnectTest()
+        {
+            using (NpgsqlConnection SqlConn = new NpgsqlConnection(GetConn()))
+            {
+                try
+                {
+                    if (SqlConn.State != ConnectionState.Open)
+                        SqlConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    return ex.ToString(); 
+                }
+            }
+            return null;
+        }
         public static DataSet ExecuteQuery(string sqrstr)
         {
             DataSet ds = new DataSet();

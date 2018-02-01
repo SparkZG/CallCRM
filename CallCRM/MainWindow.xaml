@@ -14,6 +14,7 @@
     <dx:DXWindow.CommandBindings>
         <CommandBinding Command="local:MainWindow.SelectCommand" CanExecute="SelectCommand_CanExecute" Executed="SelectCommand_Executed"/>
         <CommandBinding Command="local:MainWindow.ExitApp" CanExecute="ExitApp_CanExecute" Executed="ExitApp_Executed"/>
+        <CommandBinding Command="local:MainWindow.ServerConfigCommand" CanExecute="ServerConfigCommand_CanExecute" Executed="ServerConfigCommand_Executed"/>
     </dx:DXWindow.CommandBindings>
     <DockPanel >
         <dxb:MainMenuControl DockPanel.Dock="Top" AllowCustomizationMenu="False" AllowRename="False">
@@ -32,13 +33,14 @@
             <dxb:BarSubItem Content="设置(S)">
                 <dxb:BarButtonItem Content="待添加..."
 						Glyph="{dx:DXImage Image=GroupFieldCollection_16x16.png}"/>
+                <dxb:BarButtonItem Name="bConnect" Content="远程服务器" Glyph="{dx:DXImage Image=Publish_16x16.png}" Command="local:MainWindow.ServerConfigCommand"/>
             </dxb:BarSubItem>
             <dxb:BarSubItem Content="帮助(H)">
                 <dxb:BarButtonItem Content="关于"
 						Glyph="{dx:DXImage Image=BOCountry_16x16.png}"/>
             </dxb:BarSubItem>
         </dxb:MainMenuControl>
-        
+
         <StackPanel DockPanel.Dock="Top" Height="35" Orientation="Horizontal">
             <TextBlock Text="本地主机：" VerticalAlignment="Center" Margin="10,0,0,0"/>
             <dxe:TextEdit x:Name="HostNameComboBox" Text="{Binding HostName}" IsEnabled="{Binding ElementName=OpenPort, Path=IsChecked, Converter={StaticResource rc}, ConverterParameter=Port}"  Width="100" VerticalAlignment="Center"></dxe:TextEdit>
@@ -46,7 +48,7 @@
             <dxe:TextEdit x:Name="PortComboBox" Text="{Binding Port}" IsEnabled="{Binding ElementName=OpenPort, Path=IsChecked, Converter={StaticResource rc}, ConverterParameter=Port}" Width="100" VerticalAlignment="Center"></dxe:TextEdit>
             <dxe:CheckEdit x:Name="OpenPort" ToolTip="开启主机服务" Checked="OpenPort_Checked" Unchecked="OpenPort_Unchecked" Height="30" VerticalAlignment="Center" Style="{StaticResource slider}" Width="120" Margin="20,0,24,0" />
         </StackPanel>
-        
+
         <dxdo:DockLayoutManager Background="Transparent" DockPanel.Dock="Bottom">
             <dxdo:LayoutGroup Caption="状态信息"  GroupBorderStyle="GroupBox" Orientation="Vertical" ShowCaption="True" ItemHeight="Auto" >
                 <dxdo:LayoutControlItem  >
@@ -56,8 +58,8 @@
         </dxdo:DockLayoutManager>
         <dxlc:GroupBox Header="历史记录">
             <view:DataViewPage />
-        </dxlc:GroupBox>       
-        
+        </dxlc:GroupBox>
+
     </DockPanel>
 
 </dx:DXWindow>
