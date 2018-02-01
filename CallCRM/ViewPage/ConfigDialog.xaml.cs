@@ -72,7 +72,7 @@ namespace CallCRM.ViewPage
                     }
                     break;
                 case "2":
-                    string log = PostgresqlHelper.ConnectTest();
+                    string log = PostgresqlHelper.ConnectTest(ServerIP.Text, ServerPort.Text, Database.Text, User.Text, Password.Text);
                     DXMessageBox.Show(log == null ? "连接成功！" : log, "提示", MessageBoxButton.OK, MessageBoxImage.Information);
                     break;
                 default:

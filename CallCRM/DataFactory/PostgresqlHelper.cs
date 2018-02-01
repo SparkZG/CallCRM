@@ -15,16 +15,17 @@ namespace CallCRM.DataFactory
 
         public static string GetConn()
         {
-            return string.Format("Server={0};port={1};Database={2};Uid={3};Password={4};",Properties.Settings.Default.ServerIP,
+            return string.Format("Server={0};port={1};Database={2};Uid={3};Password={4};", Properties.Settings.Default.ServerIP,
                 Properties.Settings.Default.ServerPort,
                 Properties.Settings.Default.Database,
                 Properties.Settings.Default.UserID,
                 Properties.Settings.Default.Password);
         }
 
-        public static string ConnectTest()
+        public static string ConnectTest(string serverIp, string port, string database, string uid, string password)
         {
-            using (NpgsqlConnection SqlConn = new NpgsqlConnection(GetConn()))
+            string conn = string.Format("Server={0};port={1};Database={2};Uid={3};Password={4};", serverIp, port, database, uid, password);
+            using (NpgsqlConnection SqlConn = new NpgsqlConnection(conn))
             {
                 try
                 {
@@ -33,7 +34,7 @@ namespace CallCRM.DataFactory
                 }
                 catch (Exception ex)
                 {
-                    return ex.ToString(); 
+                    return ex.ToString();
                 }
             }
             return null;
@@ -55,7 +56,7 @@ namespace CallCRM.DataFactory
                 catch (Exception ex)
                 {
                     Log4Helper.Error(new PostgresqlHelper().GetType(), "数据库操作异常！", ex);
-                    throw(ex);
+                    throw (ex);
                 }
 
             }
@@ -84,7 +85,7 @@ namespace CallCRM.DataFactory
                 catch (Exception ex)
                 {
                     Log4Helper.Error(new PostgresqlHelper().GetType(), "数据库操作异常！", ex);
-                    throw(ex);
+                    throw (ex);
                 }
             }
             return val; //r如果是>0操作成功！ 
