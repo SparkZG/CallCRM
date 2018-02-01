@@ -646,7 +646,7 @@ namespace CallCRM.ViewModels
 
             //这里地址需要加上ip地址
             string ipStr = Provider.getIPAddress();
-            if (ipStr == "36.7.68.136")
+            if (ipStr == Properties.Settings.Default.ServerIP)
             {
                 fdm.WaveFilePath = WaveFilePath;
             }
