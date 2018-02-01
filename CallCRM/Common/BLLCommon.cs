@@ -12,11 +12,15 @@ using CallCRM.Log;
 using Microsoft.Win32;
 using CallCRM.DataFactory;
 using System.Windows.Media.Imaging;
+using DevExpress.Xpf.Core;
+using System.Windows;
 
 namespace CallCRM.Common
 {
     public class BLLCommon
     {
+        static string SystemInIPath = AppDomain.CurrentDomain.BaseDirectory + "\\System.ini";
+
         /// <summary>
         /// 获取Access数据库地址
         /// </summary>
@@ -78,6 +82,64 @@ namespace CallCRM.Common
             }
             conn.Close();
             return ds;
+        }
+
+        public static void GetSystemSet()
+        {
+            using (StreamReader sr = new StreamReader(SystemInIPath, Encoding.Default))
+            {
+                String line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] arrPara = line.Split('=');
+                    if (arrPara.Length == 2)
+                    {
+                        try
+                        {
+                            switch (arrPara[0])
+                            {
+                                case "ServerIP":
+                                    Properties.Settings.Default.ServerIP = arrPara[1];
+                                    break;
+                                case "ServerPort":
+                                    Properties.Settings.Default.ServerPort = arrPara[1];
+                                    break;
+                                case "UserID":
+                                    Properties.Settings.Default.UserID = arrPara[1];
+                                    break;
+                                case "Password":
+                                    Properties.Settings.Default.Password = arrPara[1];
+                                    break;
+                                case "Database":
+                                    Properties.Settings.Default.Database = arrPara[1];
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Log4Helper.Error(new BLLCommon().GetType(), "读取系统文件信息异常！", ex);
+                            throw;
+                        }
+
+                        Properties.Settings.Default.Save();
+                    }
+                }
+            }
+        }
+        public static void SetSystemSet()
+        {
+            List<string> systemIni = new List<string> { };
+            systemIni.Add("ServerIP=" + Properties.Settings.Default.ServerIP.ToString());
+            systemIni.Add("ServerPort=" + Properties.Settings.Default.ServerPort.ToString());
+            systemIni.Add("UserID=" + Properties.Settings.Default.UserID.ToString());
+            systemIni.Add("Password=" + Properties.Settings.Default.Password.ToString());
+            systemIni.Add("Database=" + Properties.Settings.Default.Database.ToString());
+            if (!SaveTxt(SystemInIPath, systemIni.ToArray()))
+            {
+                DXMessageBox.Show("系统文件保存异常！", "提示", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public static bool SaveTxt(string filePath, params string[] arrLog)

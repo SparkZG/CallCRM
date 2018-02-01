@@ -40,9 +40,9 @@
         </dxb:MainMenuControl>
         
         <StackPanel DockPanel.Dock="Top" Height="35" Orientation="Horizontal">
-            <TextBlock Text="主机：" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <TextBlock Text="本地主机：" VerticalAlignment="Center" Margin="10,0,0,0"/>
             <dxe:TextEdit x:Name="HostNameComboBox" Text="{Binding HostName}" IsEnabled="{Binding ElementName=OpenPort, Path=IsChecked, Converter={StaticResource rc}, ConverterParameter=Port}"  Width="100" VerticalAlignment="Center"></dxe:TextEdit>
-            <TextBlock Text="端口：" VerticalAlignment="Center" Margin="20,0,0,0"/>
+            <TextBlock Text="本地端口：" VerticalAlignment="Center" Margin="20,0,0,0"/>
             <dxe:TextEdit x:Name="PortComboBox" Text="{Binding Port}" IsEnabled="{Binding ElementName=OpenPort, Path=IsChecked, Converter={StaticResource rc}, ConverterParameter=Port}" Width="100" VerticalAlignment="Center"></dxe:TextEdit>
             <dxe:CheckEdit x:Name="OpenPort" ToolTip="开启主机服务" Checked="OpenPort_Checked" Unchecked="OpenPort_Unchecked" Height="30" VerticalAlignment="Center" Style="{StaticResource slider}" Width="120" Margin="20,0,24,0" />
         </StackPanel>

@@ -69,6 +69,7 @@ namespace CallCRM.ViewModels
             }
 
             HostName = Provider.getIPAddress();
+            BLLCommon.GetSystemSet();
             UDPAction = (evt) =>
             {
                 switch (evt.eventType)

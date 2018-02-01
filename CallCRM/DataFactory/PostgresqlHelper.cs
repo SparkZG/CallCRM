@@ -11,12 +11,20 @@ namespace CallCRM.DataFactory
     public class PostgresqlHelper
     {
         //数据库连接字符串
-        public static string strConn = "Server=36.7.68.136;Database=itms;Uid=openpg;Password=openpgpwd;port=5432;";
+        public static string strConn = "Server=172.99.100.202;Database=itms;Uid=openpg;Password=openpgpwd;port=5432;";
 
+        public static string GetConn()
+        {
+            return string.Format("Server={0};port={1};Database={2};Uid={3};Password={4};",Properties.Settings.Default.ServerIP,
+                Properties.Settings.Default.ServerPort,
+                Properties.Settings.Default.Database,
+                Properties.Settings.Default.UserID,
+                Properties.Settings.Default.Password);
+        }
         public static DataSet ExecuteQuery(string sqrstr)
         {
             DataSet ds = new DataSet();
-            using (NpgsqlConnection SqlConn = new NpgsqlConnection(strConn))
+            using (NpgsqlConnection SqlConn = new NpgsqlConnection(GetConn()))
             {
                 try
                 {
@@ -40,7 +48,7 @@ namespace CallCRM.DataFactory
         public static int ExecuteNonQuery(string sqrstr, NpgsqlParameter[] cmdParms)
         {
             int val = 0;
-            using (NpgsqlConnection SqlConn = new NpgsqlConnection(strConn))
+            using (NpgsqlConnection SqlConn = new NpgsqlConnection(GetConn()))
             {
                 try
                 {

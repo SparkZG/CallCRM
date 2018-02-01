@@ -138,6 +138,9 @@
     <Compile Include="ViewPage\BombScreen.xaml.cs">
       <DependentUpon>BombScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewPage\ConfigDialog.xaml.cs">
+      <DependentUpon>ConfigDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewPage\DataViewPage.xaml.cs">
       <DependentUpon>DataViewPage.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,10 @@
     <Page Include="ViewPage\BombScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewPage\ConfigDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ViewPage\DataViewPage.xaml">
       <SubType>Designer</SubType>
