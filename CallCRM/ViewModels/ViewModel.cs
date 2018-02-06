@@ -13,6 +13,7 @@ using CallCRM.Common;
 using CallCRM.ConnFactory;
 using CallCRM.DataFactory;
 using System.Collections.Concurrent;
+using CallCRM.Log;
 
 namespace CallCRM.ViewModels
 {    
@@ -72,69 +73,78 @@ namespace CallCRM.ViewModels
             BLLCommon.GetSystemSet();
             UDPAction = (evt) =>
             {
-                switch (evt.eventType)
+                try
                 {
-                    case SocketEventType.StartEvent:
-                        AddItemsToStatus(evt.remark);
-                        break;
-                    case SocketEventType.ReceEvent:
-                        if (evt.message == null)
-                        {
+                    switch (evt.eventType)
+                    {
+                        case SocketEventType.StartEvent:
                             AddItemsToStatus(evt.remark);
-                        }
-                        else
-                        {
-                            var frame = evt.message as DataFrame;
-                            switch (frame.dataType)
+                            break;
+                        case SocketEventType.ReceEvent:
+                            if (evt.message == null)
                             {
-                                case CS_R103.CallNumber:
-                                    TryAddCallTime(frame);
-                                    break;
-                                case CS_R103.CallerNumberCheck:
-                                    TryAddCallTime(frame);
-                                    break;
-                                case CS_R103.Hang_up:
-                                    AddItemsToStatus("已挂机");
-                                    if (HangupAction != null)
-                                    {
-                                        HangupAction();
-                                    }
-                                    break;
-                                case CS_R103.OffHook:
-                                    CreteFaultList.CloseWaitWindow();
-                                    AddItemsToStatus("已摘机");
-                                    break;
-                                case CS_R103.RingEnd:
-                                    CreteFaultList.CloseWaitWindow();
-                                    break;
-                                case CS_R103.Ringing:
-                                    //将最新的来电号码发送过去
-                                    if (CallRecord.Count > 0)
-                                    {
-                                        CreteFaultList.ShowWaitWindow(CallRecord[CallRecord.Count - 1]);
-                                    }
-                                    break;
-                                case CS_R103.Unwired:
-                                    AddItemsToStatus("电话未接线！");
-                                    break;
-                                default:
-                                    break;
+                                AddItemsToStatus(evt.remark);
                             }
-                        }
+                            else
+                            {
+                                var frame = evt.message as DataFrame;
+                                switch (frame.dataType)
+                                {
+                                    case CS_R103.CallNumber:
+                                        TryAddCallTime(frame);
+                                        break;
+                                    case CS_R103.CallerNumberCheck:
+                                        TryAddCallTime(frame);
+                                        break;
+                                    case CS_R103.Hang_up:
+                                        AddItemsToStatus("已挂机");
+                                        if (HangupAction != null)
+                                        {
+                                            HangupAction();
+                                        }
+                                        break;
+                                    case CS_R103.OffHook:
+                                        CreteFaultList.CloseWaitWindow();
+                                        AddItemsToStatus("已摘机");
+                                        break;
+                                    case CS_R103.RingEnd:
+                                        CreteFaultList.CloseWaitWindow();
+                                        break;
+                                    case CS_R103.Ringing:
+                                        //将最新的来电号码发送过去
+                                        if (CallRecord.Count > 0)
+                                        {
+                                            CreteFaultList.ShowWaitWindow(CallRecord[CallRecord.Count - 1]);
+                                        }
+                                        break;
+                                    case CS_R103.Unwired:
+                                        AddItemsToStatus("电话未接线！");
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
 
-                        break;
-                    case SocketEventType.SendEvent:
+                            break;
+                        case SocketEventType.SendEvent:
 
-                        break;
-                    case SocketEventType.StopEvent:
-                        if (_UDPServer != null)
-                        {
-                            _UDPServer.Dispose();
-                            _UDPServer = null;
-                        }
-                        AddItemsToStatus(evt.remark);
-                        break;
+                            break;
+                        case SocketEventType.StopEvent:
+                            if (_UDPServer != null)
+                            {
+                                _UDPServer.Dispose();
+                                _UDPServer = null;
+                            }
+                            AddItemsToStatus(evt.remark);
+                            break;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Log4Helper.Error(GetType(),"弹屏异常！",ex);
+                    throw ex;
+                }
+                
             };
         }
 
