@@ -141,12 +141,12 @@ namespace CallCRM.DataFactory
 
         /**/
         /// <summary>   
-        /// 根据SQL命令返回OleDbDataAdapter，   
+        /// 根据SQL命令返回OdbcDataAdapter，   
         /// 使用前请在主程序中添加命名空间System.Data.OleDb   
         /// </summary>   
         /// <param name="SQL"></param>   
         /// <returns></returns>   
-        public OdbcDataAdapter SelectToOleDbDataAdapter(string SQL)
+        public OdbcDataAdapter SelectToOdbcDataAdapter(string SQL)
         {
             OdbcDataAdapter adapter = new OdbcDataAdapter();
             OdbcCommand command = new OdbcCommand(SQL, odbCon);

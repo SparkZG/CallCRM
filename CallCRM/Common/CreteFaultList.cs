@@ -9,6 +9,7 @@ using CallCRM.Models;
 using System.Data.OleDb;
 using NpgsqlTypes;
 using CallCRM.DataFactory;
+using System.Data.Odbc;
 
 namespace CallCRM.Common
 {
@@ -73,26 +74,26 @@ namespace CallCRM.Common
             {
                 sql = "insert into call_log(date,start_time,during_time,phone,note,file_path,line_no,chan_id,user_id,asset_type_id,breakdown_categ,company_id,address,state,work_property,department_id,knowledge_id,note_result,source_id)" +
                 " values(@date,@start_time,@during_time,@phone,@note,@file_path,@line_no,@chan_id,@user_id,@asset_type_id,@breakdown_categ,@company_id,@address,@state,@work_property,@department_id,@knowledge_id,@note_result,@source_id)";
-                NpgsqlParameter[] para = { 
-                                         new NpgsqlParameter("@date",  NpgsqlDbType.Date),
-                                         new NpgsqlParameter("@start_time",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@during_time",  NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@phone",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@note",  NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@file_path",  NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@line_no",  NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@chan_id",NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@user_id",  NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@asset_type_id",NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@breakdown_categ",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@company_id",NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@address",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@state",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@work_property",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@department_id",NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@knowledge_id",NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@note_result",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@source_id",NpgsqlDbType.Integer),
+                OdbcParameter[] para = { 
+                                         new OdbcParameter("@date",  OdbcType.Date),
+                                         new OdbcParameter("@start_time",OdbcType.VarChar),
+                                         new OdbcParameter("@during_time",  OdbcType.VarChar),
+                                         new OdbcParameter("@phone",OdbcType.VarChar),
+                                         new OdbcParameter("@note",  OdbcType.VarChar),
+                                         new OdbcParameter("@file_path",  OdbcType.VarChar),
+                                         new OdbcParameter("@line_no",  OdbcType.VarChar),
+                                         new OdbcParameter("@chan_id",OdbcType.Int),
+                                         new OdbcParameter("@user_id",  OdbcType.Int),
+                                         new OdbcParameter("@asset_type_id",OdbcType.Int),
+                                         new OdbcParameter("@breakdown_categ",OdbcType.VarChar),
+                                         new OdbcParameter("@company_id",OdbcType.Int),
+                                         new OdbcParameter("@address",OdbcType.VarChar),
+                                         new OdbcParameter("@state",OdbcType.VarChar),
+                                         new OdbcParameter("@work_property",OdbcType.VarChar),
+                                         new OdbcParameter("@department_id",OdbcType.Int),
+                                         new OdbcParameter("@knowledge_id",OdbcType.Int),
+                                         new OdbcParameter("@note_result",OdbcType.VarChar),
+                                         new OdbcParameter("@source_id",OdbcType.Int),
                                     };
                 para[0].Value = fdm.StartDate;
                 para[1].Value = fdm.StartTime;
@@ -120,21 +121,20 @@ namespace CallCRM.Common
             {
                 sql = "update call_log set note=@note,user_id=@user_id,asset_type_id=@asset_type_id,breakdown_categ=@breakdown_categ,company_id=@company_id,address=@address,state=@state,"
                     + "work_property=@work_property,department_id=@department_id,knowledge_id=@knowledge_id,note_result=@note_result where source_id=@source_id and phone=@phone";
-                NpgsqlParameter[] para = { 
-                                         
-                                         new NpgsqlParameter("@phone",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@note",  NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@user_id",  NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@asset_type_id",NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@breakdown_categ",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@company_id",NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@address",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@state",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@work_property",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@department_id",NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@knowledge_id",NpgsqlDbType.Integer),
-                                         new NpgsqlParameter("@note_result",NpgsqlDbType.Varchar),
-                                         new NpgsqlParameter("@source_id",NpgsqlDbType.Integer),
+                OdbcParameter[] para = {                                          
+                                         new OdbcParameter("@phone",OdbcType.VarChar),
+                                         new OdbcParameter("@note",  OdbcType.VarChar),
+                                         new OdbcParameter("@user_id",  OdbcType.Int),
+                                         new OdbcParameter("@asset_type_id",OdbcType.Int),
+                                         new OdbcParameter("@breakdown_categ",OdbcType.VarChar),
+                                         new OdbcParameter("@company_id",OdbcType.Int),
+                                         new OdbcParameter("@address",OdbcType.VarChar),
+                                         new OdbcParameter("@state",OdbcType.VarChar),
+                                         new OdbcParameter("@work_property",OdbcType.VarChar),
+                                         new OdbcParameter("@department_id",OdbcType.Int),
+                                         new OdbcParameter("@knowledge_id",OdbcType.Int),
+                                         new OdbcParameter("@note_result",OdbcType.VarChar),
+                                         new OdbcParameter("@source_id",OdbcType.Int),
                                     };
                 para[0].Value = fdm.CallerID;
                 para[1].Value = fdm.note;
