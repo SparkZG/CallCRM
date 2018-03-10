@@ -130,6 +130,12 @@
     <Compile Include="ConnFactory\SocketFactory.cs" />
     <Compile Include="ConnFactory\UDPServer.cs" />
     <Compile Include="DataFactory\PostgresqlHelper.cs" />
+    <Compile Include="DataFactory\SqlServer\AbstractDataBase.cs" />
+    <Compile Include="DataFactory\SqlServer\DBFactory.cs" />
+    <Compile Include="DataFactory\SqlServer\DBProvider .cs" />
+    <Compile Include="DataFactory\SqlServer\Odbc.cs" />
+    <Compile Include="DataFactory\SqlServer\OleDb.cs" />
+    <Compile Include="DataFactory\SqlServer\SqlServer.cs" />
     <Compile Include="Models\DataModel.cs" />
     <Compile Include="Models\FaultDataModel.cs" />
     <Compile Include="ViewModels\BSViewModel.cs" />
