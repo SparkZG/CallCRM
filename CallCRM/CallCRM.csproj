@@ -130,6 +130,12 @@
     <Compile Include="ConnFactory\SocketFactory.cs" />
     <Compile Include="ConnFactory\UDPServer.cs" />
     <Compile Include="DataFactory\PostgresqlHelper.cs" />
+    <Compile Include="DataFactory\SqlServer\AbstractDataBase.cs" />
+    <Compile Include="DataFactory\SqlServer\DBFactory.cs" />
+    <Compile Include="DataFactory\SqlServer\DBProvider .cs" />
+    <Compile Include="DataFactory\SqlServer\Odbc.cs" />
+    <Compile Include="DataFactory\SqlServer\OleDb.cs" />
+    <Compile Include="DataFactory\SqlServer\SqlServer.cs" />
     <Compile Include="Models\DataModel.cs" />
     <Compile Include="Models\FaultDataModel.cs" />
     <Compile Include="ViewModels\BSViewModel.cs" />
@@ -202,6 +208,8 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="bin\Debug\log4net.config" />
+    <None Include="bin\Debug\System.ini" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -230,6 +238,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\show_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Interop.JRO.dll" />
+    <Content Include="bin\Debug\log4net.dll" />
+    <Content Include="bin\Debug\Mono.Security.dll" />
+    <Content Include="bin\Debug\MySql.Data.dll" />
+    <Resource Include="bin\Debug\MySql.Data.xml" />
+    <Content Include="bin\Debug\Npgsql.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -139,6 +139,11 @@ namespace CallCRM.ViewPage
 
         private void FalutLookUpEdit_SelectedIndexChanged(object sender, RoutedEventArgs e)
         {
+            if (vm.KnowLedge == null)
+            {
+                vm.Note_Result = string.Empty;
+                return;
+            }
             vm.Note_Result = vm.KnowLedge.Text;
         }
 

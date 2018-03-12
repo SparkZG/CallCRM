@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using DevExpress.Xpf.Core;
 using CallCRM.Log;
 using CallCRM.DataFactory;
+using CallCRM.Common;
 
 
 namespace CallCRM.ViewPage
@@ -49,6 +50,8 @@ namespace CallCRM.ViewPage
             Properties.Settings.Default.Database = Database.Text;
             Properties.Settings.Default.UserID = User.Text;
             Properties.Settings.Default.Password = Password.Text;
+            Properties.Settings.Default.Save();
+            DXMessageBox.Show("下次重启生效！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
         }
 
@@ -72,7 +75,7 @@ namespace CallCRM.ViewPage
                     }
                     break;
                 case "2":
-                    string log = PostgresqlHelper.ConnectTest(ServerIP.Text, ServerPort.Text, Database.Text, User.Text, Password.Text);
+                    string log = CreteFaultList.sqlOperateClass.ConnectTest(ServerIP.Text, ServerPort.Text, Database.Text, User.Text, Password.Text);
                     DXMessageBox.Show(log == null ? "连接成功！" : log, "提示", MessageBoxButton.OK, MessageBoxImage.Information);
                     break;
                 default:

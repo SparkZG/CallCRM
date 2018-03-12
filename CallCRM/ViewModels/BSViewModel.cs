@@ -315,7 +315,7 @@ namespace CallCRM.ViewModels
 
         private void CheckNull()
         {
-            if (user != null && assetType != null && company != null & department != null && knowLedge != null)
+            if (user != null && assetType != null && company != null & department != null)
             {
                 Prompt = "";
             }
@@ -384,8 +384,7 @@ namespace CallCRM.ViewModels
         }
         public void GetCall_logData()
         {
-            string strsql = string.Format("select * from call_log where source_id={0} and phone='{1}'", AccessID, CallerID);
-            DataTable callData = PostgresqlHelper.ExecuteQuery(strsql).Tables[0];
+            DataTable callData = CreteFaultList.GetOrder(AccessID, CallerID);
             if (callData.Rows.Count > 0)
             {
                 //update
@@ -484,36 +483,31 @@ namespace CallCRM.ViewModels
 
         public void GetMainData()
         {
-            string strsql = "select a.id,a.login,a.username,a.department_id,b.name as department_name from res_users a left join hr_department b on a.department_id=b.id";
-            DataTable dtUser = PostgresqlHelper.ExecuteQuery(strsql).Tables[0];
+            DataTable dtUser = CreteFaultList.GetUser();
             foreach (DataRow item in dtUser.Rows)
             {
                 UserDict.Add(new SelfKeyValue(Convert.ToInt32(item["id"]), Convert.ToInt32(item["department_id"] == DBNull.Value ? -1 : item["department_id"]), item["login"].ToString(), item["username"].ToString(), (item["department_name"] == DBNull.Value ? "暂无" : item["department_name"]).ToString()));
             }
 
-            strsql = "select id,code,name from hr_department ";
-            DataTable dtDepartment = PostgresqlHelper.ExecuteQuery(strsql).Tables[0];
+            DataTable dtDepartment = CreteFaultList.GetDepartment();
             foreach (DataRow item in dtDepartment.Rows)
             {
                 DepartmentDict.Add(new SelfKeyValue(Convert.ToInt32(item["id"]), item["name"].ToString(), item["code"].ToString()));
             }
 
-            strsql = "select id,name from asset_type";
-            DataTable dtAssetType = PostgresqlHelper.ExecuteQuery(strsql).Tables[0];
+            DataTable dtAssetType = CreteFaultList.GetAssetType();
             foreach (DataRow item in dtAssetType.Rows)
             {
                 AssetTypeDict.Add(new SelfKeyValue(Convert.ToInt32(item["id"]), item["name"].ToString()));
             }
 
-            strsql = "select id,name from res_company";
-            DataTable dtCompany = PostgresqlHelper.ExecuteQuery(strsql).Tables[0];
+            DataTable dtCompany = CreteFaultList.GetCompany();
             foreach (DataRow item in dtCompany.Rows)
             {
                 CompanyDict.Add(new SelfKeyValue(Convert.ToInt32(item["id"]), item["name"].ToString()));
             }
 
-            strsql = "select id,name,note_case as note_result from knowledge_case";
-            DataTable dtKnowledge = PostgresqlHelper.ExecuteQuery(strsql).Tables[0];
+            DataTable dtKnowledge = CreteFaultList.GetKnowledge();
             foreach (DataRow item in dtKnowledge.Rows)
             {
                 KnowLedgeDict.Add(new SelfKeyValue(Convert.ToInt32(item["id"]), item["name"].ToString(), item["note_result"].ToString()));
@@ -608,15 +602,6 @@ namespace CallCRM.ViewModels
             else
                 fdm.work_property = OrderType.Text;
 
-            if (KnowLedge == null)
-            {
-                //不能创建
-                Prompt = "请选择故障主题！";
-                return false;
-            }
-            else
-                fdm.knowledge_id = KnowLedge.Key;
-
             //故障类型
             if (BreakDownCate == null)
             {
@@ -625,13 +610,13 @@ namespace CallCRM.ViewModels
             else
                 fdm.breakdown_categ = BreakDownCate.Text;
 
-            ////故障主题------------（-1可能导致外键错误）
-            //if (KnowLedge == null)
-            //{
-            //    fdm.knowledge_id = -1;
-            //}
-            //else
-            //    fdm.knowledge_id = KnowLedge.Key;
+            //故障主题------------（-1可能导致外键错误）
+            if (KnowLedge == null)
+            {
+                fdm.knowledge_id = 0;
+            }
+            else
+                fdm.knowledge_id = KnowLedge.Key;
 
             //去除换行符
             Regex reg = new Regex(@"\b\r\n");
@@ -644,16 +629,16 @@ namespace CallCRM.ViewModels
             fdm.SetData(_DataModel);
 
 
-            //这里地址需要加上ip地址
-            string ipStr = Provider.getIPAddress();
-            if (ipStr == Properties.Settings.Default.ServerIP)
-            {
-                fdm.WaveFilePath = WaveFilePath;
-            }
-            else
-            {
-                fdm.WaveFilePath = ipStr + "\\" + WaveFilePath;
-            }
+            //这里地址需要加上ip地址(目前不需要加IP了)
+            //string ipStr = Provider.getIPAddress();
+            //if (ipStr == Properties.Settings.Default.ServerIP)
+            //{
+            fdm.WaveFilePath = WaveFilePath;
+            //}
+            //else
+            //{
+            //    fdm.WaveFilePath = ipStr + "\\" + WaveFilePath;
+            //}
 
 
             //插入服务器

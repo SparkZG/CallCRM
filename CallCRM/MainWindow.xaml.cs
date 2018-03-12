@@ -108,7 +108,7 @@ namespace CallCRM
 
         #endregion
 
-        #region Command-关机指令
+        #region Command-远程连接配置
         /// <summary>
         /// 测试
         /// </summary>
@@ -134,6 +134,7 @@ namespace CallCRM
         private void DXWindow_Closed(object sender, EventArgs e)
         {
             vm.StopConnent();
+            BLLCommon.SetSystemSet();
         }
 
         private void DXWindow_Loaded(object sender, RoutedEventArgs e)
