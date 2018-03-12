@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using CallCRM.Log;
 
 namespace CallCRM.DataFactory
 {
@@ -78,14 +79,15 @@ namespace CallCRM.DataFactory
             using (IDbConnection iConn = this.GetConnection())
             {
                 using (IDbCommand iCmd = this.GetCommand(sql, iConn))
-                {
-                    iConn.Open();
+                {                    
                     try
                     {
+                        iConn.Open();
                         effectRows = iCmd.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
+                        Log4Helper.Error(GetType(), "SqlServer数据库操作异常！", ex);
                         throw new Exception(ex.Message);
                     }
                     finally
@@ -114,6 +116,7 @@ namespace CallCRM.DataFactory
                 }
                 catch (Exception ex)
                 {
+                    Log4Helper.Error(GetType(), "SqlServer数据库操作异常！", ex);
                     throw new Exception(ex.Message);
                 }
                 finally
@@ -134,15 +137,16 @@ namespace CallCRM.DataFactory
             DataSet ds = new DataSet();
             using (IDbConnection iConn = this.GetConnection())
             {
-                iConn.Open();
                 try
                 {
+                    iConn.Open();
                     IDataAdapter ida = this.GetAdapter(sql, iConn);
                     ida.TableMappings.Add("Table", tableName);
                     ida.Fill(ds);
                 }
                 catch (Exception ex)
                 {
+                    Log4Helper.Error(GetType(), "SqlServer数据库操作异常！", ex);
                     throw new Exception(ex.Message);
                 }
                 finally
@@ -172,6 +176,7 @@ namespace CallCRM.DataFactory
                 }
                 catch (Exception ex)
                 {
+                    Log4Helper.Error(GetType(), "SqlServer数据库操作异常！", ex);
                     throw new Exception(ex.Message);
                 }
                 finally
@@ -190,10 +195,10 @@ namespace CallCRM.DataFactory
         {
             using (IDbConnection iConn = this.GetConnection())
             {
-                iConn.Open();
                 IDbCommand iCmd = null;
                 try
                 {
+                    iConn.Open();
                     PrepareCommand(out iCmd, iConn, null, sql, iParams);
                     object obj = iCmd.ExecuteScalar();
                     if (Object.Equals(obj, null) || Object.Equals(obj, System.DBNull.Value))
@@ -207,6 +212,7 @@ namespace CallCRM.DataFactory
                 }
                 catch (Exception ex)
                 {
+                    Log4Helper.Error(GetType(), "SqlServer数据库操作异常！", ex);
                     throw new Exception(ex.Message);
                 }
                 finally
