@@ -10,6 +10,9 @@ using System.Data.OleDb;
 using NpgsqlTypes;
 using CallCRM.DataFactory;
 using System.Data.SqlClient;
+using MySql;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 namespace CallCRM.Common
 {
@@ -35,7 +38,7 @@ namespace CallCRM.Common
     {
         public static RingWindow rw = null;
 
-        public static AbstractDataBase sqlOperateClass = DBFactory.Create(DBType.SqlServer, DBFactory.GetConn());
+        //public static AbstractDataBase sqlOperateClass = DBFactory.Create(DBType.SqlServer, DBFactory.GetConn());
         public static void ShowCreateWindow(string number, CallTime ct)
         {
             BombScreen bs = new BombScreen(number, ct);
@@ -162,26 +165,26 @@ namespace CallCRM.Common
             {
                 sql = "insert into call_log(date,start_time,during_time,phone,note,file_path,line_no,chan_id,user_id,asset_type_id,breakdown_categ,company_id,address,state,work_property,department_id,knowledge_id,note_result,source_id)" +
                 " values(@date,@start_time,@during_time,@phone,@note,@file_path,@line_no,@chan_id,@user_id,@asset_type_id,@breakdown_categ,@company_id,@address,@state,@work_property,@department_id,@knowledge_id,@note_result,@source_id)";
-                SqlParameter[] para = { 
-                                         new SqlParameter("@date",  SqlDbType.Date),
-                                         new SqlParameter("@start_time",SqlDbType.VarChar),
-                                         new SqlParameter("@during_time",  SqlDbType.VarChar),
-                                         new SqlParameter("@phone",SqlDbType.VarChar),
-                                         new SqlParameter("@note",  SqlDbType.VarChar),
-                                         new SqlParameter("@file_path",  SqlDbType.VarChar),
-                                         new SqlParameter("@line_no",  SqlDbType.VarChar),
-                                         new SqlParameter("@chan_id",SqlDbType.Int),
-                                         new SqlParameter("@user_id",  SqlDbType.Int),
-                                         new SqlParameter("@asset_type_id",SqlDbType.Int),
-                                         new SqlParameter("@breakdown_categ",SqlDbType.VarChar),
-                                         new SqlParameter("@company_id",SqlDbType.Int),
-                                         new SqlParameter("@address",SqlDbType.VarChar),
-                                         new SqlParameter("@state",SqlDbType.VarChar),
-                                         new SqlParameter("@work_property",SqlDbType.VarChar),
-                                         new SqlParameter("@department_id",SqlDbType.Int),
-                                         new SqlParameter("@knowledge_id",SqlDbType.Int),
-                                         new SqlParameter("@note_result",SqlDbType.VarChar),
-                                         new SqlParameter("@source_id",SqlDbType.Int),
+                MySqlParameter[] para = { 
+                                         new MySqlParameter("@date",   MySqlDbType.Date),
+                                         new MySqlParameter("@start_time",SqlDbType.VarChar),
+                                         new MySqlParameter("@during_time",  MySqlDbType.VarChar),
+                                         new MySqlParameter("@phone",MySqlDbType.VarChar),
+                                         new MySqlParameter("@note",  MySqlDbType.VarChar),
+                                         new MySqlParameter("@file_path",  MySqlDbType.VarChar),
+                                         new MySqlParameter("@line_no",  MySqlDbType.VarChar),
+                                         new MySqlParameter("@chan_id",MySqlDbType.Int32),
+                                         new MySqlParameter("@user_id",  MySqlDbType.Int32),
+                                         new MySqlParameter("@asset_type_id",MySqlDbType.Int32),
+                                         new MySqlParameter("@breakdown_categ",MySqlDbType.VarChar),
+                                         new MySqlParameter("@company_id",MySqlDbType.Int32),
+                                         new MySqlParameter("@address",MySqlDbType.VarChar),
+                                         new MySqlParameter("@state",MySqlDbType.VarChar),
+                                         new MySqlParameter("@work_property",MySqlDbType.VarChar),
+                                         new MySqlParameter("@department_id",MySqlDbType.Int32),
+                                         new MySqlParameter("@knowledge_id",MySqlDbType.Int32),
+                                         new MySqlParameter("@note_result",MySqlDbType.VarChar),
+                                         new MySqlParameter("@source_id",MySqlDbType.Int32),
                                     };
                 para[0].Value = fdm.StartDate;
                 para[1].Value = fdm.StartTime;
@@ -203,27 +206,27 @@ namespace CallCRM.Common
                 para[17].Value = fdm.note_result;
                 para[18].Value = fdm.ID;
 
-                rows = sqlOperateClass.ExcuteSql(sql, para);
+                rows = MySqlHelperClass.ExecuteNonQuery(MySqlHelperClass.GetConn(), System.Data.CommandType.Text, sql, para); 
             }
             else
             {
                 sql = "update call_log set note=@note,user_id=@user_id,asset_type_id=@asset_type_id,breakdown_categ=@breakdown_categ,company_id=@company_id,address=@address,state=@state,"
                     + "work_property=@work_property,department_id=@department_id,knowledge_id=@knowledge_id,note_result=@note_result where source_id=@source_id and phone=@phone";
-                SqlParameter[] para = { 
+                MySqlParameter[] para = { 
                                          
-                                         new SqlParameter("@phone",SqlDbType.VarChar),
-                                         new SqlParameter("@note",  SqlDbType.VarChar),
-                                         new SqlParameter("@user_id",  SqlDbType.Int),
-                                         new SqlParameter("@asset_type_id",SqlDbType.Int),
-                                         new SqlParameter("@breakdown_categ",SqlDbType.VarChar),
-                                         new SqlParameter("@company_id",SqlDbType.Int),
-                                         new SqlParameter("@address",SqlDbType.VarChar),
-                                         new SqlParameter("@state",SqlDbType.VarChar),
-                                         new SqlParameter("@work_property",SqlDbType.VarChar),
-                                         new SqlParameter("@department_id",SqlDbType.Int),
-                                         new SqlParameter("@knowledge_id",SqlDbType.Int),
-                                         new SqlParameter("@note_result",SqlDbType.VarChar),
-                                         new SqlParameter("@source_id",SqlDbType.Int),
+                                         new MySqlParameter("@phone",MySqlDbType.VarChar),
+                                         new MySqlParameter("@note",  MySqlDbType.VarChar),
+                                         new MySqlParameter("@user_id",  MySqlDbType.Int32),
+                                         new MySqlParameter("@asset_type_id",MySqlDbType.Int32),
+                                         new MySqlParameter("@breakdown_categ",MySqlDbType.VarChar),
+                                         new MySqlParameter("@company_id",MySqlDbType.Int32),
+                                         new MySqlParameter("@address",MySqlDbType.VarChar),
+                                         new MySqlParameter("@state",MySqlDbType.VarChar),
+                                         new MySqlParameter("@work_property",MySqlDbType.VarChar),
+                                         new MySqlParameter("@department_id",MySqlDbType.Int32),
+                                         new MySqlParameter("@knowledge_id",MySqlDbType.Int32),
+                                         new MySqlParameter("@note_result",MySqlDbType.VarChar),
+                                         new MySqlParameter("@source_id",MySqlDbType.Int32),
                                     };
                 para[0].Value = fdm.CallerID;
                 para[1].Value = fdm.note;
@@ -239,7 +242,7 @@ namespace CallCRM.Common
                 para[11].Value = fdm.note_result;
                 para[12].Value = fdm.ID;
 
-                rows = sqlOperateClass.ExcuteSql(sql, para);
+                rows = MySqlHelperClass.ExecuteNonQuery(MySqlHelperClass.GetConn(), System.Data.CommandType.Text, sql, para); 
             }
 
 
@@ -253,32 +256,32 @@ namespace CallCRM.Common
         public static DataTable GetUser()
         {
             string strsql = "select a.id,a.login,a.username,a.department_id,b.name as department_name from res_users a left join hr_department b on a.department_id=b.id";
-            return sqlOperateClass.Query(strsql, "User").Tables[0];
+            return MySqlHelperClass.GetDataSet(MySqlHelperClass.GetConn(), System.Data.CommandType.Text, strsql, null).Tables[0]; 
         }
         public static DataTable GetDepartment()
         {
             string strsql = "select id,code,name from hr_department ";
-            return sqlOperateClass.Query(strsql, "Department").Tables[0];
+            return MySqlHelperClass.GetDataSet(MySqlHelperClass.GetConn(), System.Data.CommandType.Text, strsql, null).Tables[0]; 
         }
         public static DataTable GetAssetType()
         {
             string strsql = "select id,name from asset_type ";
-            return sqlOperateClass.Query(strsql, "AssetType").Tables[0];
+            return MySqlHelperClass.GetDataSet(MySqlHelperClass.GetConn(), System.Data.CommandType.Text, strsql, null).Tables[0]; 
         }
         public static DataTable GetCompany()
         {
             string strsql = "select id,name from res_company ";
-            return sqlOperateClass.Query(strsql, "Company").Tables[0];
+            return MySqlHelperClass.GetDataSet(MySqlHelperClass.GetConn(), System.Data.CommandType.Text, strsql, null).Tables[0]; 
         }
         public static DataTable GetKnowledge()
         {
             string strsql = "select id,name,note_result from knowledge_case ";
-            return sqlOperateClass.Query(strsql, "Knowledge").Tables[0];
+            return MySqlHelperClass.GetDataSet(MySqlHelperClass.GetConn(), System.Data.CommandType.Text, strsql, null).Tables[0]; 
         }
         public static DataTable GetOrder(int _accessID, string _callerID)
         {
             string strsql = string.Format("select * from call_log where source_id={0} and phone='{1}'", _accessID, _callerID);
-            return sqlOperateClass.Query(strsql, "Order").Tables[0];
+            return MySqlHelperClass.GetDataSet(MySqlHelperClass.GetConn(), System.Data.CommandType.Text, strsql, null).Tables[0]; 
         }
 
 
