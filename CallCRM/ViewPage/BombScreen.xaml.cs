@@ -72,7 +72,7 @@ namespace CallCRM.ViewPage
             FaultTypeComo.ItemsSource = vm.FaultDict;
             FaultTypeComo.ValueMember = "Text";
             FaultTypeComo.DisplayMember = "Value";
-            FaultTypeComo.SelectedIndex = 2;
+            FaultTypeComo.SelectedIndex = 0;
 
             FalutLookUpEdit.ItemsSource = vm.KnowLedgeDict;
             FalutLookUpEdit.ValueMember = "Key";

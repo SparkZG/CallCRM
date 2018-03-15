@@ -167,7 +167,7 @@ namespace CallCRM.Common
                 " values(@date,@start_time,@during_time,@phone,@note,@file_path,@line_no,@chan_id,@user_id,@asset_type_id,@breakdown_categ,@company_id,@address,@state,@work_property,@department_id,@knowledge_id,@note_result,@source_id)";
                 MySqlParameter[] para = { 
                                          new MySqlParameter("@date",   MySqlDbType.Date),
-                                         new MySqlParameter("@start_time",SqlDbType.VarChar),
+                                         new MySqlParameter("@start_time",MySqlDbType.VarChar),
                                          new MySqlParameter("@during_time",  MySqlDbType.VarChar),
                                          new MySqlParameter("@phone",MySqlDbType.VarChar),
                                          new MySqlParameter("@note",  MySqlDbType.VarChar),
