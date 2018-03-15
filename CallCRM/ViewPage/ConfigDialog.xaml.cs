@@ -51,7 +51,6 @@ namespace CallCRM.ViewPage
             Properties.Settings.Default.UserID = User.Text;
             Properties.Settings.Default.Password = Password.Text;
             Properties.Settings.Default.Save();
-            DXMessageBox.Show("下次重启生效！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
         }
 

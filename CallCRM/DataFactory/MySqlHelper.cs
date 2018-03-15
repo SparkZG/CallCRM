@@ -14,18 +14,18 @@ namespace CallCRM.DataFactory
     {
         public static string GetConn()
         {
-            return string.Format("Server={0};Port={1};Database={2};UserId={3};Password={4}", Properties.Settings.Default.ServerIP,
+            return string.Format("Server={0};Port={1};Database={2};Uid={3};Password={4};charset='utf8';pooling=true;", Properties.Settings.Default.ServerIP,
                 Properties.Settings.Default.ServerPort,
                 Properties.Settings.Default.Database,
                 Properties.Settings.Default.UserID,
                 Properties.Settings.Default.Password);
         }
         //数据库连接字符串
-        public static string Conn = "Server=36.7.68.136;Database=itms;UserId=openpg;Password=openpgpwd;port=5432;";
+        public static string Conn = "Server=localhost;Database=datacloud;Uid=zhanggan;Password=BQ000000bq;charset='utf8';pooling=true;port=3306;";
 
         public static string ConnectTest(string serverIp, string port, string database, string uid, string password)
         {
-            string conn = string.Format("Server={0};Port={1};Database={2};UserId={3};Password={4}", serverIp, port, database, uid, password);
+            string conn = string.Format("Server={0};Port={1};Database={2};Uid={3};Password={4};charset='utf8';pooling=true;", serverIp, port, database, uid, password);
             using (MySqlConnection SqlConn = new MySqlConnection(conn))
             {
                 try
